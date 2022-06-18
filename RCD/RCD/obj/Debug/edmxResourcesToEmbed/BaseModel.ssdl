@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище RcdBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id_Order" />
+    </Key>
+    <Property Name="Id_Order" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Where1" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Where2" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="What" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TypeDil" Type="int" Nullable="false" />
+    <Property Name="TypePay" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="id_user" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TypeDelivery">
+    <Key>
+      <PropertyRef Name="id_typed" />
+    </Key>
+    <Property Name="id_typed" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name_d" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="cost_d" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Userss">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SecondName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Order_TypeDelivery">
+    <End Role="TypeDelivery" Type="Self.TypeDelivery" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeDelivery">
+        <PropertyRef Name="id_typed" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="TypeDil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Userss">
+    <End Role="Userss" Type="Self.Userss" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userss">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище RcdBaseModelContainer">
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeDelivery" EntityType="Self.TypeDelivery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Userss" EntityType="Self.Userss" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Order_TypeDelivery" Association="Self.FK_Order_TypeDelivery">
+      <End Role="TypeDelivery" EntitySet="TypeDelivery" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Userss" Association="Self.FK_Order_Userss">
+      <End Role="Userss" EntitySet="Userss" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
